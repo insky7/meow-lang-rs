@@ -29,13 +29,6 @@ impl Parser {
         self.parse_expression().map(ASTStatement::expression)
     }
 
-    fn parse_expression(&mut self) -> Option<ASTExpression> {
-        let token = self.current()?;
-        match token.kind {
-            TokenKind::Number(number) => Some(ASTExpression::number(number)),
-            _ => None,
-        }
-    }
 
     fn peek(&self, offset: usize) -> Option<&Token> {
         self.tokens.get(self.current + offset)
@@ -43,5 +36,28 @@ impl Parser {
 
     fn current(&self) -> Option<&Token> {
         self.peek(0)
+    }
+    fn advance(&mut self) -> Option<&Token> {
+        // Check if there is a token to advance to
+        if self.current < self.tokens.len() {
+            // Temporarily store the current token to return it
+            let token = &self.tokens[self.current];
+            // Safely increment the current index now
+            self.current += 1;
+            // Return the token we advanced from
+            Some(token)
+        } else {
+            // No more tokens to advance to
+            None
+        }
+    }
+
+    fn parse_expression(&mut self) -> Option<ASTExpression> {
+        // Use self.advance() instead of self.current() to ensure the parser advances
+        let token = self.advance()?;
+        match token.kind {
+            TokenKind::Number(number) => Some(ASTExpression::number(number)),
+            _ => None,
+        }
     }
 }

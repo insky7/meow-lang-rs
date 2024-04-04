@@ -14,8 +14,8 @@ fn main() {
     println!("Tokens: {:?}", tokens);
     let mut parser = Parser::from_input(input); 
     let mut ast = Ast::new(); 
-    //while let Some(next_statement) = parser.parse_statement() {
-    //    ast.add_statement(next_statement);
-    //}
+    while let Some(next_statement) = parser.parse_statement() {
+        ast.add_statement(next_statement);
+    }
     ast.visit(&mut visitor);
 }

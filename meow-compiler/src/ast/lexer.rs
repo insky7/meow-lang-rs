@@ -112,3 +112,4 @@ impl<'a> Lexer<'a> {
         self.input[start..self.current_pos].parse::<i64>().unwrap_or(0)
     }
 }
+
